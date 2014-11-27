@@ -12,6 +12,7 @@
       <li>Переход на файл включаемой области при клике в вызове <?$APPLICATION->IncludeComponent('bitrix:main.include', ...);?> на значение ключа 'AREA_FILE_SUFFIX'.</li>
       <li>Поддержка папок bitrix и local.</li>
       <li>Корректное определение типов и автокомплит для <a href="http://dev.1c-bitrix.ru/api_help/main/general/magic_vars.php">специальных переменных</a> $APPLICATION, $USER и $DB</li>
+      <li>Переход на директории и файлы, найденные в строковых переменных.</li>
     </ul>
     <p><b>Терминология</b></p>
     <ul>
@@ -21,6 +22,9 @@
     ]]></description>
 
   <change-notes><![CDATA[
+    <p><b>0.0.3</b></p><ul>
+      <li>Переход на директории и файлы, найденные в строковых переменных.</li>
+    </ul>
     <p><b>0.0.2</b></p><ul>
       <li>Корректное определение типов и автокомплит для <a href="http://dev.1c-bitrix.ru/api_help/main/general/magic_vars.php">специальных переменных</a> $APPLICATION, $USER и $DB</li>
     </ul>

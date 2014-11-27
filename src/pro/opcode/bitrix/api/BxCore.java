@@ -8,6 +8,8 @@ import com.intellij.psi.PsiFile;
 import com.jetbrains.php.lang.psi.elements.ParameterList;
 import com.jetbrains.php.lang.psi.elements.StringLiteralExpression;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -82,6 +84,18 @@ public class BxCore
 		);
 
 		return founded == null ? null : founded.getVirtualFile();
+	}
+
+	public static boolean isFilenameValid(String fileName) {
+		return fileName.matches("^[/^-_.A-Za-z0-9]+$");
+		/* Лучший, но более медленный вариант:
+		try {
+			new File(fileName).getCanonicalPath();
+			return true;
+		} catch (IOException e) {
+			return false;
+		}
+		*/
 	}
 
 	private PsiFile getPageIncludeFile(PsiDirectory directory, String name, String suffix) {

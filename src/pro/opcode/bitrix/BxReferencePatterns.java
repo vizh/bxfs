@@ -9,6 +9,7 @@ import com.jetbrains.php.lang.psi.elements.*;
 import com.jetbrains.php.lang.psi.elements.impl.VariableImpl;
 import org.apache.commons.lang.ArrayUtils;
 import org.jetbrains.annotations.Nullable;
+import pro.opcode.bitrix.api.BxCore;
 
 public class BxReferencePatterns
 {
@@ -73,6 +74,19 @@ public class BxReferencePatterns
 				}
 
 				return true;
+			}
+		});
+	}
+
+	/**
+	 * Захват строк, содержащих пути к файлам / папкам
+	 */
+	public static PhpElementPattern.Capture<StringLiteralExpression> bxPathReference() {
+		return new PhpElementPattern.Capture<StringLiteralExpression>(new InitialPatternCondition<StringLiteralExpression>(StringLiteralExpression.class) {
+			@Override
+			public boolean accepts(@Nullable Object o, ProcessingContext context) {
+				assert o != null && o instanceof StringLiteralExpression;
+				return (BxCore.isFilenameValid(((StringLiteralExpression) o).getContents()));
 			}
 		});
 	}
