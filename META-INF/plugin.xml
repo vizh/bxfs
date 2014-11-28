@@ -1,12 +1,12 @@
 <idea-plugin version="2">
   <id>pro.opcode.bitrix</id>
   <name>Bitrix Framework Support</name>
-  <version>0.0.2</version>
+  <version>0.0.3</version>
   <vendor email="star.absorber@gmail.com">opCode</vendor>
 
   <description><![CDATA[
     <p>Bitrix is popular in the former Soviet Union region, so there is no much sense to me and you to communicate in a foreign language. But you can feel free to write me in English anyway.</p>
-    <p>Модуль долгое время был рабочей лошадкой для личного использования. Он достаточно прост и на данный момент имеет следующие функции:</p>
+    <p>Функционал:</p>
     <ul>
       <li>Переход на шаблон компонента, расположенный внутри (bitrix|local)/templates/...</li>
       <li>Переход на файл включаемой области при клике в вызове <?$APPLICATION->IncludeComponent('bitrix:main.include', ...);?> на значение ключа 'AREA_FILE_SUFFIX'.</li>
@@ -19,11 +19,12 @@
       <li><b>Переход</b> - Cmd + B или Cmd + Left Mouse Click</li>
     </ul>
     <p>Для Windows вместо Cmd работает Ctrl.</p>
+    <p><b>Устанавливается только на Intellij IDEA 14 c PHP плагином и PhpStorm 9. К тому времени, когда плагин обрастёт достаточным функционалом эти версии станут мэйнстримом.</b></p>
     ]]></description>
 
   <change-notes><![CDATA[
     <p><b>0.0.3</b></p><ul>
-      <li>Переход на директории и файлы, найденные в строковых переменных.</li>
+      <li>Переход на директории и файлы, найденные в строковых переменных..</li>
     </ul>
     <p><b>0.0.2</b></p><ul>
       <li>Корректное определение типов и автокомплит для <a href="http://dev.1c-bitrix.ru/api_help/main/general/magic_vars.php">специальных переменных</a> $APPLICATION, $USER и $DB</li>
@@ -40,12 +41,6 @@
   <idea-version since-build="139"/>
   <depends>com.intellij.modules.lang</depends>
   <depends>com.jetbrains.php</depends>
-
-  <!-- please see http://confluence.jetbrains.com/display/IDEADEV/Plugin+Compatibility+with+IntelliJ+Platform+Products
-       on how to target different products -->
-  <!-- uncomment to enable plugin in all products
-  <depends>com.intellij.modules.lang</depends>
-  -->
 
   <extensions defaultExtensionNs="com.intellij">
     <psi.referenceContributor implementation="pro.opcode.bitrix.BxReferenceContributors"/>
