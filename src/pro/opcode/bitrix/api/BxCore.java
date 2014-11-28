@@ -29,11 +29,34 @@ public class BxCore
 		this.project = project;
 	}
 
+	/* Проверяет, есть ли в текущем проекте папка (bitrix|local)/components/bitrix */
+	public boolean isComponentsFolderExists() {
+		for (String bitrixPath : BitrixPaths) {
+			VirtualFile componentsDir = project.getBaseDir().findFileByRelativePath(bitrixPath + "/components/bitrix");
+			if (componentsDir != null && componentsDir.isDirectory() && componentsDir.exists())
+				return true;
+		}
+		return false;
+	}
+
+	/* Возвращает список всех доступных компонентов */
+	public VirtualFile[] getComponents() {
+		List<VirtualFile> components = new ArrayList<VirtualFile>();
+		for (String bitrixPath : BitrixPaths) {
+			VirtualFile vendorsDir = project.getBaseDir().findFileByRelativePath(bitrixPath + "/components"); if (vendorsDir != null && vendorsDir.isDirectory()) {
+				for (VirtualFile componentsDir : vendorsDir.getChildren()) if (componentsDir != null && componentsDir.isDirectory()) {
+					Collections.addAll(components, componentsDir.getChildren());
+				}
+			}
+		}
+		return components.toArray(new VirtualFile[components.size()]);
+	}
+
 	public VirtualFile[] getComponentVendors() {
 		List<VirtualFile> vendors = new ArrayList<VirtualFile>();
 		for (String bitrixPath : BitrixPaths) {
-			VirtualFile componentDir = project.getBaseDir().findFileByRelativePath(bitrixPath + "/components"); if (componentDir != null && componentDir.isDirectory()) {
-				Collections.addAll(vendors, componentDir.getChildren());
+			VirtualFile vendorsDir = project.getBaseDir().findFileByRelativePath(bitrixPath + "/components"); if (vendorsDir != null && vendorsDir.isDirectory()) {
+				Collections.addAll(vendors, vendorsDir.getChildren());
 			}
 		}
 		return vendors.toArray(new VirtualFile[vendors.size()]);

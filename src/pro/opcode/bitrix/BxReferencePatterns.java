@@ -2,12 +2,11 @@ package pro.opcode.bitrix;
 
 import com.intellij.patterns.InitialPatternCondition;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.impl.source.tree.LeafPsiElement;
 import com.intellij.util.ProcessingContext;
 import com.jetbrains.php.injection.PhpElementPattern;
 import com.jetbrains.php.lang.parser.PhpElementTypes;
 import com.jetbrains.php.lang.psi.elements.*;
-import com.jetbrains.php.lang.psi.elements.impl.VariableImpl;
-import org.apache.commons.lang.ArrayUtils;
 import org.jetbrains.annotations.Nullable;
 import pro.opcode.bitrix.api.BxCore;
 
@@ -20,7 +19,11 @@ public class BxReferencePatterns
 		return new PhpElementPattern.Capture<StringLiteralExpression>(new InitialPatternCondition<StringLiteralExpression>(StringLiteralExpression.class) {
 			@Override
 			public boolean accepts(@Nullable Object o, ProcessingContext context) {
-				assert o != null && o instanceof StringLiteralExpression;
+				assert o != null && (o instanceof StringLiteralExpression || o instanceof LeafPsiElement);
+				/* LeafPsiElement - это недописанный элемент, которому необходим автокомплит. Сам элемент - его предок. */
+				if (o instanceof LeafPsiElement)
+					o = ((LeafPsiElement) o).getParent();
+
 				return isValidComponentCall(o)
 					&& isParameterDepth(o, 1);
 			}

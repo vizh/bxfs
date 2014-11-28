@@ -1,5 +1,6 @@
 package pro.opcode.bitrix;
 
+import com.intellij.codeInsight.completion.CompletionContributor;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiReference;
@@ -7,9 +8,12 @@ import com.intellij.util.IncorrectOperationException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public abstract class BxReference implements PsiReference
+public abstract class BxReference extends CompletionContributor implements PsiReference
 {
 	private PsiElement element;
+
+	public BxReference() {
+	}
 
 	public BxReference(PsiElement element) {
 		this.element = element;
