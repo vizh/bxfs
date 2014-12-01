@@ -1,13 +1,14 @@
 <idea-plugin version="2">
   <id>pro.opcode.bitrix</id>
   <name>Bitrix Framework Support</name>
-  <version>0.0.3</version>
+  <version>0.0.5</version>
   <vendor email="star.absorber@gmail.com">opCode</vendor>
 
   <description><![CDATA[
     <p>Bitrix is popular in the former Soviet Union region, so there is no much sense to me and you to communicate in a foreign language. But you can feel free to write me in English anyway.</p>
     <p>Функционал:</p>
     <ul>
+      <li>Переход на файл компонента.</li>
       <li>Переход на шаблон компонента, расположенный внутри (bitrix|local)/templates/...</li>
       <li>Переход на файл включаемой области при клике в вызове <?$APPLICATION->IncludeComponent('bitrix:main.include', ...);?> на значение ключа 'AREA_FILE_SUFFIX'.</li>
       <li>Поддержка папок bitrix и local.</li>
@@ -21,11 +22,14 @@
     </ul>
     <p>Для Windows вместо Cmd работает Ctrl.</p>
     <p><b>Устанавливается только на Intellij IDEA 14 c PHP плагином и PhpStorm 9. К тому времени, когда плагин обрастёт достаточным функционалом, эти версии станут мэйнстримом.</b></p>
-    <p>Прислушаюсь к Вашим пожеланиям, которые можно оставлять в <a href="http://redmine.vizh.ru/projects/proj060/issues">Кабинете</a>. Там же можете посмотреть планы по развитию плагина.</p>
+    <p>Прислушаюсь к Вашим пожеланиям, которые можно оставлять в <a href="http://redmine.vizh.ru/projects/proj060/issues">Кабинете</a>. Там же можете <a href="http://redmine.vizh.ru/projects/proj060/roadmap">посмотреть планы</a> по развитию плагина.</p>
     ]]></description>
 
   <change-notes><![CDATA[
-    <p><b>0.1</b></p><ul>
+    <p><b>0.0.5</b></p><ul>
+      <li>Решена проблема с подсветкой bitrix в вызовах require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");</li>
+    </ul>
+    <p><b>0.0.4</b></p><ul>
       <li>Автокомплит компонента в процессе набора $APPLICATION->IncludeComponent(...)</li>
     </ul>
     <p><b>0.0.3</b></p><ul>
@@ -52,6 +56,9 @@
     <completion.contributor language="PHP" implementationClass="pro.opcode.bitrix.references.BxComponentReference"/>
     <psi.referenceContributor implementation="pro.opcode.bitrix.BxReferenceContributors"/>
     <php.typeProvider2 implementation="pro.opcode.bitrix.types.BxSuperglobalsProvider"/>
+    <localInspection language="PHP" groupPath="PHP" shortName="PhpIncludeInspection" displayName="Unresolved include" groupName="General"
+                     enabledByDefault="true"
+                     level="WARNING" implementationClass="pro.opcode.bitrix.inspections.PhpIncludeInspection"/>
   </extensions>
 
   <application-components>
