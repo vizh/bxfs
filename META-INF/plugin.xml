@@ -28,6 +28,7 @@
   <change-notes><![CDATA[
     <p><b>0.0.5</b></p><ul>
       <li>Решена проблема с подсветкой bitrix в вызовах require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");</li>
+      <li>Автокомплит переменных, доступных в шаблоне компонента. Это $arResult, $arParams, $componentPath и других <a href="http://dev.1c-bitrix.ru/learning/course/?COURSE_ID=43&LESSON_ID=2829#variables">описанных тут</a></li>
     </ul>
     <p><b>0.0.4</b></p><ul>
       <li>Автокомплит компонента в процессе набора $APPLICATION->IncludeComponent(...)</li>
