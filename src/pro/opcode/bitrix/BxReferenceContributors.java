@@ -3,10 +3,7 @@ package pro.opcode.bitrix;
 import com.intellij.psi.*;
 import com.intellij.util.ProcessingContext;
 import org.jetbrains.annotations.NotNull;
-import pro.opcode.bitrix.references.BxComponentIncludeReference;
-import pro.opcode.bitrix.references.BxComponentReference;
-import pro.opcode.bitrix.references.BxComponentTemplateReference;
-import pro.opcode.bitrix.references.BxPathReference;
+import pro.opcode.bitrix.references.*;
 
 public class BxReferenceContributors extends PsiReferenceContributor
 {	@Override
@@ -37,6 +34,13 @@ public class BxReferenceContributors extends PsiReferenceContributor
 				@NotNull @Override
 				public PsiReference[] getReferencesByElement(@NotNull PsiElement element, @NotNull ProcessingContext context) {
 			return new BxPathReference(element).getReference();
+		}});
+
+		/* Обработчик подключений bitrix/header.php и bitrix/footer.php */
+		registrar.registerReferenceProvider(BxReferencePatterns.bxTemplateReference(), new PsiReferenceProvider(){
+				@NotNull @Override
+				public PsiReference[] getReferencesByElement(@NotNull PsiElement element, @NotNull ProcessingContext context) {
+			return new BxTemplateReference(element).getReference();
 		}});
 	}
 }

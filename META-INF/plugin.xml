@@ -1,34 +1,43 @@
 <idea-plugin version="2">
   <id>pro.opcode.bitrix</id>
   <name>Bitrix Framework Support</name>
-  <version>0.0.5</version>
+  <version>0.0.8</version>
   <vendor email="star.absorber@gmail.com">opCode</vendor>
 
   <description><![CDATA[
     <p>Bitrix is popular in the former Soviet Union region, so there is no much sense to me and you to communicate in a foreign language. But you can feel free to write me in English anyway.</p>
     <p>Функционал:</p>
     <ul>
-      <li>Переход на файл компонента.</li>
-      <li>Переход на шаблон компонента, расположенный внутри (bitrix|local)/templates/...</li>
-      <li>Переход на файл включаемой области при клике в вызове <?$APPLICATION->IncludeComponent('bitrix:main.include', ...);?> на значение ключа 'AREA_FILE_SUFFIX'.</li>
       <li>Поддержка папок bitrix и local.</li>
-      <li>Корректное определение типов и автокомплит для <a href="http://dev.1c-bitrix.ru/api_help/main/general/magic_vars.php">специальных переменных</a> $APPLICATION, $USER и $DB.</li>
-      <li>Переход на директории и файлы, найденные в строковых переменных.</li>
+      <li>Переход на файл компонента, шаблона компонента, шаблона сайта а так же на директории и файлы, найденные в строковых переменных.</li>
+      <li>Переход на файл включаемой области при клике в вызове <?$APPLICATION->IncludeComponent('bitrix:main.include', ...);?> на значение ключа 'AREA_FILE_SUFFIX'.</li>
+      <li>Корректное определение типов и автокомплит для <a href="http://dev.1c-bitrix.ru/api_help/main/general/magic_vars.php">специальных переменных</a> и <a href="http://dev.1c-bitrix.ru/learning/course/?COURSE_ID=43&LESSON_ID=2829#variables">переменных шаблона</a>.</li>
       <li>Автокомплит компонента в процессе набора $APPLICATION->IncludeComponent(...)</li>
+      <li>Решена проблема с подсветкой bitrix как неразрешённого пути в вызовах require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php"); и похожих конструкциях.</li>
+      <li>Безопасный рефакторинг файлов с автоматическим обновлением их вызовов в строковых переменных. <a href="https://www.youtube.com/watch?v=QddJ9E4i9oo">Демо-видео</a>.</li>
+      <li>Поиск использований, например файла some.css, в вызовах $APPLICATION->SetAdditionalCSS('...some.css'), во всех файлах проекта.</li>
     </ul>
-    <p><b>Терминология</b></p>
-    <ul>
-      <li><b>Переход</b> - Cmd + B или Cmd + Left Mouse Click</li>
-    </ul>
-    <p>Для Windows вместо Cmd работает Ctrl.</p>
-    <p><b>Устанавливается только на Intellij IDEA 14 c PHP плагином и PhpStorm 9. К тому времени, когда плагин обрастёт достаточным функционалом, эти версии станут мэйнстримом.</b></p>
-    <p>Прислушаюсь к Вашим пожеланиям, которые можно оставлять в <a href="http://redmine.vizh.ru/projects/proj060/issues">Кабинете</a>. Там же можете <a href="http://redmine.vizh.ru/projects/proj060/roadmap">посмотреть планы</a> по развитию плагина.</p>
+    <p>Пожелания и сообщения об ошибках можете отправлять на почту или оставлять в <a href="http://redmine.vizh.ru/projects/proj060/issues">Кабинете</a>. Там же можете <a href="http://redmine.vizh.ru/projects/proj060/roadmap">посмотреть планы</a> по развитию.</p>
     ]]></description>
 
   <change-notes><![CDATA[
+    <p><b>0.0.8</b></p><ul>
+      <li>Переход на файлы header.php и footer.php шаблонов сайта</li>
+    </ul>
+    <p><b>0.0.7</b></p><ul>
+      <li>Корректное определение файлов в строках с конкатенацией, например в 'ind'.'ex.c'.'ss' или $APPLICATION->SetAdditionalCSS($APPLICATION->GetCurDir().'/some.css')</li>
+      <li>Доступность переменных $arResult, $arParams и $componentPath в файлах component.php</li>
+    </ul>
+    <p><b>0.0.6</b></p><ul>
+      <li>Решена проблема с подсветкой bitrix в вызовах require($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include.php");</li>
+      <li>Поддержка безопасного удаления файлов с предупреждением о их использованиях в вызовах, например $APPLICATION->SetAdditionalCSS('/some.css')</li>
+      <li>Поддержка переименования и перемещения файлов с автоматическим обновлением их вызовов, например $APPLICATION->SetAdditionalCSS('/some.css')</li>
+      <li>Поиск использований, например файла some.css, в вызовах $APPLICATION->SetAdditionalCSS('...some.css'), во всех файлах проекта.</li>
+      <li>Вышеперечисленную "магию" лучше <a href="http://vizh.share.s3.amazonaws.com/bxfs/refactoring.mov">посмотреть наглядно</a>. В целом, тема интересная и есть куда развивать: автокомплит, например, создание отсутствующего файла и т.п.</li>
+    </ul>
     <p><b>0.0.5</b></p><ul>
       <li>Решена проблема с подсветкой bitrix в вызовах require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");</li>
-      <li>Автокомплит переменных, доступных в шаблоне компонента. Это $arResult, $arParams, $componentPath и других <a href="http://dev.1c-bitrix.ru/learning/course/?COURSE_ID=43&LESSON_ID=2829#variables">описанных тут</a></li>
+      <li>Автокомплит переменных, доступных в шаблоне компонента. Это $arResult, $arParams, $componentPath и другие, <a href="http://dev.1c-bitrix.ru/learning/course/?COURSE_ID=43&LESSON_ID=2829#variables">описанные тут</a>.</li>
     </ul>
     <p><b>0.0.4</b></p><ul>
       <li>Автокомплит компонента в процессе набора $APPLICATION->IncludeComponent(...)</li>
@@ -55,6 +64,7 @@
   <extensions defaultExtensionNs="com.intellij">
     <completion.contributor language="PHP" implementationClass="pro.opcode.bitrix.types.BxSuperglobalsProvider"/>
     <completion.contributor language="PHP" implementationClass="pro.opcode.bitrix.references.BxComponentReference"/>
+    <completion.contributor language="PHP" implementationClass="pro.opcode.bitrix.references.BxPathReference"/>
     <psi.referenceContributor implementation="pro.opcode.bitrix.BxReferenceContributors"/>
     <php.typeProvider2 implementation="pro.opcode.bitrix.types.BxSuperglobalsProvider"/>
     <localInspection language="PHP" groupPath="PHP" shortName="PhpIncludeInspection" displayName="Unresolved include" groupName="General"

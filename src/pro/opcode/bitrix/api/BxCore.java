@@ -8,8 +8,6 @@ import com.intellij.psi.PsiFile;
 import com.jetbrains.php.lang.psi.elements.ParameterList;
 import com.jetbrains.php.lang.psi.elements.StringLiteralExpression;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -37,6 +35,36 @@ public class BxCore
 				return true;
 		}
 		return false;
+	}
+
+	/* Возвращает список всех доступных шаблонов сайтов */
+	public VirtualFile[] getSiteTemplates() {
+		List<VirtualFile> templates = new ArrayList<VirtualFile>();
+		for (String bitrixPath : BitrixPaths) {
+			VirtualFile templatesDir = project.getBaseDir().findChild("templates"); if (templatesDir != null && templatesDir.isDirectory()) {
+				for (VirtualFile templateDir : templatesDir.getChildren()) if (templateDir != null && templateDir.isDirectory()) {
+					VirtualFile templateComponent;
+					if ((templateComponent = templateDir.findChild("header.php")) != null && !templateComponent.isDirectory() && templateComponent.isValid()
+					 && (templateComponent = templateDir.findChild("footer.php")) != null && !templateComponent.isDirectory() && templateComponent.isValid())
+						templates.add(templateDir);
+				}
+			}
+		}
+		return templates.toArray(new VirtualFile[templates.size()]);
+	}
+
+	/* Возвращает список указанных компонентов всех доступных шаблонов сайтов, где они есть */
+	public VirtualFile[] getSiteTemplatesComponents(String templateComponent) {
+		List<VirtualFile> templates = new ArrayList<VirtualFile>();
+		for (String bitrixPath : BitrixPaths) {
+			VirtualFile templatesDir = project.getBaseDir().findFileByRelativePath(bitrixPath + "/templates"); if (templatesDir != null && templatesDir.isDirectory()) {
+				for (VirtualFile templateDir : templatesDir.getChildren()) if (templateDir != null && templateDir.isDirectory()) {
+					VirtualFile component = templateDir.findChild(templateComponent); if (component != null && !component.isDirectory() && component.isValid())
+						templates.add(component);
+				}
+			}
+		}
+		return templates.toArray(new VirtualFile[templates.size()]);
 	}
 
 	/* Возвращает список всех доступных компонентов */
@@ -110,7 +138,7 @@ public class BxCore
 	}
 
 	public static boolean isFilenameValid(String fileName) {
-		return fileName.matches("^[/^-_.A-Za-z0-9]+$");
+		return fileName.matches("^[/^\\-_.A-Za-z0-9]+$");
 		/* Лучший, но более медленный вариант:
 		try {
 			new File(fileName).getCanonicalPath();

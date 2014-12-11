@@ -51,7 +51,6 @@ public abstract class BxReference extends CompletionContributor implements PsiRe
 
 	@Override
 	public boolean isReferenceTo(PsiElement element) {
-		// toDo: Не уверен в реализации. Подсмотрено тут: http://habrahabr.ru/post/187292/
 		PsiElement resolvedElement = resolve();
 		return resolvedElement != null
 			&& resolvedElement.equals(element);

@@ -1,0 +1,5 @@
+.idea
+*.iml
+bxfs.old.versions
+TestProject
+out

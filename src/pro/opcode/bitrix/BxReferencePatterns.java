@@ -9,6 +9,7 @@ import com.jetbrains.php.lang.parser.PhpElementTypes;
 import com.jetbrains.php.lang.psi.elements.*;
 import org.jetbrains.annotations.Nullable;
 import pro.opcode.bitrix.api.BxCore;
+import pro.opcode.bitrix.references.BxTemplateReference;
 
 public class BxReferencePatterns
 {
@@ -21,8 +22,8 @@ public class BxReferencePatterns
 			public boolean accepts(@Nullable Object o, ProcessingContext context) {
 				assert o != null && (o instanceof StringLiteralExpression || o instanceof LeafPsiElement);
 				/* LeafPsiElement - это недописанный элемент, которому необходим автокомплит. Сам элемент - его предок. */
-				if (o instanceof LeafPsiElement)
-					o = ((LeafPsiElement) o).getParent();
+				if (o instanceof LeafPsiElement && !((o = ((LeafPsiElement) o).getParent()) instanceof StringLiteralExpression))
+					return false;
 
 				return isValidComponentCall(o)
 					&& isParameterDepth(o, 1);
@@ -71,12 +72,8 @@ public class BxReferencePatterns
 				}
 
 				/* Элемент должен быть значением ключа массива, который является параметров вызова $APPLICATION->IncludeComponent('bitrix:main.include') */
-				if (!isValidComponentCall(arKey.getParent().getParent().getParent(), "bitrix:main.include")) {
-//					System.out.println("Элемент должен быть значением ключа массива, который является параметров вызова $APPLICATION->IncludeComponent('bitrix:main.include')");
-					return false;
-				}
+				return isValidComponentCall(arKey.getParent().getParent().getParent(), "bitrix:main.include");
 
-				return true;
 			}
 		});
 	}
@@ -88,11 +85,29 @@ public class BxReferencePatterns
 		return new PhpElementPattern.Capture<StringLiteralExpression>(new InitialPatternCondition<StringLiteralExpression>(StringLiteralExpression.class) {
 			@Override
 			public boolean accepts(@Nullable Object o, ProcessingContext context) {
-				assert o != null && o instanceof StringLiteralExpression;
+				assert o != null && (o instanceof StringLiteralExpression || o instanceof LeafPsiElement);
+				/* LeafPsiElement - это недописанный элемент, которому необходим автокомплит. Сам элемент - его предок. */
+				if (o instanceof LeafPsiElement && !((o = ((LeafPsiElement) o).getParent()) instanceof StringLiteralExpression))
+					return false;
+
 				return (BxCore.isFilenameValid(((StringLiteralExpression) o).getContents()));
 			}
 		});
 	}
+
+	/**
+	 * Захват подключения bitrix/header.php и bitrix/footer.php
+	 */
+	public static PhpElementPattern.Capture<StringLiteralExpression> bxTemplateReference() {
+		return new PhpElementPattern.Capture<StringLiteralExpression>(new InitialPatternCondition<StringLiteralExpression>(StringLiteralExpression.class) {
+			@Override
+			public boolean accepts(@Nullable Object o, ProcessingContext context) {
+				assert o != null && o instanceof StringLiteralExpression;
+				return BxTemplateReference.bxTemplateReferenceTargets.containsKey(((StringLiteralExpression) o).getContents());
+			}
+		});
+	}
+
 
 	/**
 	 * Is the element is a parameter of $APPLICATION->IncludeComponent() call
