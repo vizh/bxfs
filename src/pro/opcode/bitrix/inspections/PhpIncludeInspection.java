@@ -4,19 +4,12 @@ import com.intellij.codeInsight.daemon.quickFix.CreateFileFix;
 import com.intellij.codeInspection.LocalQuickFix;
 import com.intellij.codeInspection.ProblemHighlightType;
 import com.intellij.codeInspection.ProblemsHolder;
-import com.intellij.psi.PsiDirectory;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiElementVisitor;
-import com.intellij.psi.PsiInvalidElementAccessException;
-import com.intellij.psi.PsiReference;
-import com.intellij.psi.impl.source.resolve.ResolveCache;
+import com.intellij.psi.*;
 import com.intellij.psi.impl.source.resolve.reference.impl.providers.FileReference;
 import com.jetbrains.php.lang.inspections.PhpInspection;
 import com.jetbrains.php.lang.psi.elements.Include;
 import com.jetbrains.php.lang.psi.visitors.PhpElementVisitor;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.Arrays;
 
 /* toDo: Правильнее было бы вмешаться в процесс индексирования и добавить в индекс необходимые пути, пусть и виртуально.
  * Достаточно добавить файл в ResolveCache */
@@ -33,9 +26,15 @@ public class PhpIncludeInspection extends PhpInspection {
                     int i = 0;
 
 					/* Начало изменения */
-					if (var9.length == 2 && var9[0].getCanonicalText().equals("bitrix") && Arrays.asList("header.php", "footer.php").contains(var9[1].getCanonicalText())) {
+                    /* toDo: Привязаться к BxTemplateReference.bxTemplateReferenceTargets */
+					if (var9.length > 0 && var9[0].getCanonicalText().equals("bitrix"))
 						return;
-					}
+
+//					if (var9.length == 2 && var9[0].getCanonicalText().equals("bitrix") && Arrays.asList("header.php", "footer.php").contains(var9[1].getCanonicalText()))
+//						return;
+//
+//                    if (var9.length == 4 && var9[0].getCanonicalText().equals("bitrix") && var9[1].getCanonicalText().equals("modules") && var9[2].getCanonicalText().equals("main") && var9[3].getCanonicalText().equals("include.php"))
+//                        return;
 					/* Конец изменения */
 
                     for(int refsLength = var9.length; i < refsLength; ++i) {
