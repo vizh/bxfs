@@ -1,7 +1,7 @@
 <idea-plugin version="2">
   <id>pro.opcode.bitrix</id>
   <name>Bitrix Framework Support</name>
-  <version>0.0.8</version>
+  <version>0.0.9</version>
   <vendor email="star.absorber@gmail.com">opCode</vendor>
 
   <description><![CDATA[
@@ -21,6 +21,9 @@
     ]]></description>
 
   <change-notes><![CDATA[
+    <p><b>0.0.9</b></p><ul>
+      <li>Переход к коду компонента в class.php, если он есть и к component.php в противном случае.</li>
+    </ul>
     <p><b>0.0.8</b></p><ul>
       <li>Переход на файлы header.php и footer.php шаблонов сайта</li>
       <li>При поиске шаблонов компонента был опущен третий шаг <a href="http://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=43&LESSON_ID=2829#template_search">алгоритма поиска шаблона компонента</a>.</li>

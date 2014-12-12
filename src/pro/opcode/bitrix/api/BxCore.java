@@ -5,10 +5,11 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiDirectory;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
-import com.jetbrains.php.lang.psi.elements.ParameterList;
 import com.jetbrains.php.lang.psi.elements.StringLiteralExpression;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -16,12 +17,6 @@ public class BxCore
 {
 	private Project project;
 	private static final String[] BitrixPaths = {"local", "bitrix"};
-	private static class ComponentCredentials
-	{
-		String vendor;
-		String component;
-		String template;
-	}
 
 	public BxCore(Project project) {
 		this.project = project;
@@ -90,47 +85,11 @@ public class BxCore
 		return vendors.toArray(new VirtualFile[vendors.size()]);
 	}
 
-	public VirtualFile getComponentDir(PsiElement element) {
-		ComponentCredentials credentials = GetComponentCredentials(element); if (credentials.component != null) {
-			for (String bitrixPath : BitrixPaths) {
-				String path = String.format("%s/components/%s/%s", bitrixPath, credentials.vendor, credentials.component);
-				VirtualFile componentDir = project.getBaseDir().findFileByRelativePath(path); if (componentDir != null && componentDir.isDirectory())
-					return componentDir;
-			}
-		}
-		return null;
-	}
-
-	public VirtualFile getComponentSourceFile(PsiElement element) {
-		VirtualFile componentDir = getComponentDir(element); if (componentDir != null) {
-			VirtualFile componentSourceFile = componentDir.findChild("component.php"); if (componentSourceFile != null && componentSourceFile.isValid())
-				return componentSourceFile;
-		}
-		return null;
-	}
-
 	public VirtualFile getComponentTemplateSourceFile(PsiElement element) {
-		ComponentCredentials credentials = GetComponentCredentials(element); if (credentials.component != null && credentials.template != null) {
-			for (String bitrixPath : BitrixPaths) {
-				/* Добавляем кастомные шаблоны компонента */
-				VirtualFile templatesDir = project.getBaseDir().findFileByRelativePath(bitrixPath + "/templates"); if (templatesDir != null && templatesDir.isDirectory()) {
-					for (VirtualFile templateDir : templatesDir.getChildren()) {
-						VirtualFile componentsDir = templateDir.findChild("components"); if (componentsDir != null && componentsDir.isDirectory()) {
-							VirtualFile vendorsDir = componentsDir.findChild(credentials.vendor); if (vendorsDir != null && vendorsDir.isDirectory()) {
-								VirtualFile componentDir = vendorsDir.findChild(credentials.component); if (componentDir != null && componentDir.isDirectory()) {
-									VirtualFile componentTemplateDir = componentDir.findChild(credentials.template); if (componentTemplateDir != null && componentTemplateDir.isDirectory()) {
-										return componentTemplateDir.findChild("template.php");
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-			/* Кастомный шаблон компонента не нашли, посмотрим среди системных шаблонов */
-			VirtualFile componentDir = getComponentDir(element); if (componentDir != null) {
-				VirtualFile componentTemplateSourceFile = componentDir.findFileByRelativePath("templates/" + credentials.template + "/template.php"); if (componentTemplateSourceFile != null && componentTemplateSourceFile.isValid())
-					return componentTemplateSourceFile;
+		BxComponent credentials = new BxComponent(element); if (credentials.component != null && credentials.template != null) {
+			for (String path : new String[]{"{local,bitrix}/templates/components/%s/%s/%s/template.php", "{local,bitrix}/components/%s/%s/templates/%s/template.php"}) {
+				VirtualFile founded = findFile(project.getBaseDir(), path, credentials.vendor, credentials.component, credentials.template); if (founded != null)
+					return founded;
 			}
 		}
 
@@ -164,25 +123,68 @@ public class BxCore
 		*/
 	}
 
+	@Nullable
+	public static VirtualFile findFile(VirtualFile baseDir, String path, String... vars) {
+		VirtualFile[] files = findFiles(baseDir, path, vars);
+		return files == null ? null : files[0];
+	}
+
+	@Nullable
+	public static VirtualFile[] findFiles(VirtualFile baseDir, String path, String... vars) {
+		if (vars.length > 0)
+			path = String.format(path, vars);
+
+		List<VirtualFile> result = new ArrayList<VirtualFile>();
+		List<VirtualFile> buffer = new ArrayList<VirtualFile>();
+
+		VirtualFile child;
+
+		result.add(baseDir);
+
+		for (String pathComponent : path.split("/")) if (!pathComponent.isEmpty()) {
+			for (VirtualFile parent : result) {
+				/* Перечисления */
+				if (pathComponent.startsWith("{") && pathComponent.endsWith("}")) {
+					for (String enumeration : pathComponent.substring(1, pathComponent.length() - 2).split(","))
+						if ((child = parent.findChild(enumeration)) != null)
+							buffer.add(child);
+					continue;
+				}
+				/* Любой деть */
+				if (pathComponent.equals("*")) {
+					buffer.addAll(Arrays.asList(parent.getChildren()));
+					continue;
+				}
+				/* Конкретный деть */
+				if ((child = parent.findChild(pathComponent)) != null) {
+					buffer.add(child);
+				}
+			}
+			result.clear(); result.addAll(buffer);
+			buffer.clear();
+		}
+
+		/* Вместопустых массивов возвращаем null */
+		if (result.isEmpty())
+			return null;
+
+		/* Если путь оканчивается на /, то проверим что все результаты являются директориями */
+		if (path.endsWith("/")) {
+			for (VirtualFile file : result) {
+				if (file.isDirectory())
+					buffer.add(file);
+			}
+			result.clear(); result.addAll(buffer);
+			buffer.clear();
+		}
+
+		return result.toArray(new VirtualFile[result.size()]);
+	}
+
 	private PsiFile getPageIncludeFile(PsiDirectory directory, String name, String suffix) {
 		PsiFile file; if ((file = directory.findFile(String.format("%s_%s.php", suffix, name))) == null && suffix.equals("sect") && directory.getParent() != null)
 			file = getPageIncludeFile(directory.getParent(), name, suffix);
 
 		return file;
-	}
-
-	private static ComponentCredentials GetComponentCredentials(PsiElement element) {
-		PsiElement[] methodParameters = ((ParameterList) element.getParent()).getParameters();
-		String[] cmpParts = ((StringLiteralExpression) methodParameters[0]).getContents().split(":");
-		ComponentCredentials credentials = new ComponentCredentials();
-		credentials.vendor = cmpParts[0].isEmpty() ? null : cmpParts[0];
-		credentials.component = cmpParts.length > 1 ? cmpParts[1] : null;
-
-		if (methodParameters.length > 1 && methodParameters[1] instanceof StringLiteralExpression) {
-			credentials.template = ((StringLiteralExpression) methodParameters[1]).getContents(); if (credentials.template.isEmpty())
-				credentials.template = null;
-		}
-
-		return credentials;
 	}
 }
