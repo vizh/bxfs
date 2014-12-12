@@ -90,13 +90,21 @@ public class BxCore
 		return vendors.toArray(new VirtualFile[vendors.size()]);
 	}
 
-	public VirtualFile getComponentSourceFile(PsiElement element) {
+	public VirtualFile getComponentDir(PsiElement element) {
 		ComponentCredentials credentials = GetComponentCredentials(element); if (credentials.component != null) {
 			for (String bitrixPath : BitrixPaths) {
-				String path = String.format("%s/components/%s/%s/component.php", bitrixPath, credentials.vendor, credentials.component);
-				VirtualFile cmpSourceFile = project.getBaseDir().findFileByRelativePath(path); if (cmpSourceFile != null)
-					return cmpSourceFile;
+				String path = String.format("%s/components/%s/%s", bitrixPath, credentials.vendor, credentials.component);
+				VirtualFile componentDir = project.getBaseDir().findFileByRelativePath(path); if (componentDir != null && componentDir.isDirectory())
+					return componentDir;
 			}
+		}
+		return null;
+	}
+
+	public VirtualFile getComponentSourceFile(PsiElement element) {
+		VirtualFile componentDir = getComponentDir(element); if (componentDir != null) {
+			VirtualFile componentSourceFile = componentDir.findChild("component.php"); if (componentSourceFile != null && componentSourceFile.isValid())
+				return componentSourceFile;
 		}
 		return null;
 	}
@@ -104,6 +112,7 @@ public class BxCore
 	public VirtualFile getComponentTemplateSourceFile(PsiElement element) {
 		ComponentCredentials credentials = GetComponentCredentials(element); if (credentials.component != null && credentials.template != null) {
 			for (String bitrixPath : BitrixPaths) {
+				/* Добавляем кастомные шаблоны компонента */
 				VirtualFile templatesDir = project.getBaseDir().findFileByRelativePath(bitrixPath + "/templates"); if (templatesDir != null && templatesDir.isDirectory()) {
 					for (VirtualFile templateDir : templatesDir.getChildren()) {
 						VirtualFile componentsDir = templateDir.findChild("components"); if (componentsDir != null && componentsDir.isDirectory()) {
@@ -118,7 +127,13 @@ public class BxCore
 					}
 				}
 			}
+			/* Кастомный шаблон компонента не нашли, посмотрим среди системных шаблонов */
+			VirtualFile componentDir = getComponentDir(element); if (componentDir != null) {
+				VirtualFile componentTemplateSourceFile = componentDir.findFileByRelativePath("templates/" + credentials.template + "/template.php"); if (componentTemplateSourceFile != null && componentTemplateSourceFile.isValid())
+					return componentTemplateSourceFile;
+			}
 		}
+
 		return null;
 	}
 

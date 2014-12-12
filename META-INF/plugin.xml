@@ -23,10 +23,12 @@
   <change-notes><![CDATA[
     <p><b>0.0.8</b></p><ul>
       <li>Переход на файлы header.php и footer.php шаблонов сайта</li>
+      <li>При поиске шаблонов компонента был опущен третий шаг <a href="http://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=43&LESSON_ID=2829#template_search">алгоритма поиска шаблона компонента</a>.</li>
     </ul>
     <p><b>0.0.7</b></p><ul>
       <li>Корректное определение файлов в строках с конкатенацией, например в 'ind'.'ex.c'.'ss' или $APPLICATION->SetAdditionalCSS($APPLICATION->GetCurDir().'/some.css')</li>
       <li>Доступность переменных $arResult, $arParams и $componentPath в файлах component.php</li>
+      <li>Поддержка PhpStorm</li>
     </ul>
     <p><b>0.0.6</b></p><ul>
       <li>Решена проблема с подсветкой bitrix в вызовах require($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include.php");</li>
@@ -57,7 +59,7 @@
   </change-notes>
 
   <!-- please see http://confluence.jetbrains.com/display/IDEADEV/Build+Number+Ranges for description -->
-  <idea-version since-build="139"/>
+  <idea-version since-build="139.1"/>
   <depends>com.intellij.modules.lang</depends>
   <depends>com.jetbrains.php</depends>
 
