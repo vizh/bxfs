@@ -2,6 +2,7 @@ package pro.opcode.bitrix;
 
 import com.intellij.patterns.InitialPatternCondition;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiErrorElement;
 import com.intellij.psi.impl.source.tree.LeafPsiElement;
 import com.intellij.util.ProcessingContext;
 import com.jetbrains.php.injection.PhpElementPattern;
@@ -135,9 +136,19 @@ public class BxReferencePatterns
 
 	/**
 	 * Is the element have expected position in method parameters list
+	 * and all previous parameters is valid
 	 */
 	private static boolean isParameterDepth(Object o, int depth) {
 		PsiElement[] parameters = ((ParameterList) ((PsiElement) o).getParent()).getParameters();
-		return parameters.length >= depth && parameters[depth - 1].equals(o);
+		/* Если параметров меньше, чем необходимо - облом */
+		if (parameters.length < depth)
+			return false;
+		/* Все предыдущие параметры должны быть корректными */
+		if (depth > 1) for (int i = 0; i < depth; i++) {
+			if (parameters[i] instanceof PsiErrorElement)
+				return false;
+		}
+		/* Проверяем, что указанный параметр имеет правильную глубину вложенности */
+		return parameters[depth - 1].equals(o);
 	}
 }
