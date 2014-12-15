@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import pro.opcode.bitrix.BxReference;
 import pro.opcode.bitrix.BxReferencePatterns;
-import pro.opcode.bitrix.api.BxCore;
+import pro.opcode.bitrix.api.BxComponent;
 
 import java.util.Arrays;
 import java.util.List;
@@ -52,8 +52,8 @@ public class BxComponentTemplateReference extends BxReference
 	@Nullable
 	@Override
 	public PsiElement resolve() {
-		BxCore bitrix = new BxCore(getElement().getProject());
-		VirtualFile componentTemplateFile = bitrix.getComponentTemplateSourceFile(getElement()); if (componentTemplateFile != null)
+//		BxCore bitrix = new BxCore(getElement().getProject());
+		VirtualFile componentTemplateFile = new BxComponent(getElement()).getComponentTemplateFile("{template.php,template.twig,template.tpl}"); if (componentTemplateFile != null)
 			return getElement().getManager().findFile(componentTemplateFile);
 		return null;
 	}

@@ -85,17 +85,6 @@ public class BxCore
 		return vendors.toArray(new VirtualFile[vendors.size()]);
 	}
 
-	public VirtualFile getComponentTemplateSourceFile(PsiElement element) {
-		BxComponent credentials = new BxComponent(element); if (credentials.component != null && credentials.template != null) {
-			for (String path : new String[]{"{local,bitrix}/templates/*/components/%s/%s/%s/template.php", "{local,bitrix}/components/%s/%s/templates/%s/template.php"}) {
-				VirtualFile founded = findFile(project.getBaseDir(), path, credentials.vendor, credentials.component, credentials.template); if (founded != null)
-					return founded;
-			}
-		}
-
-		return null;
-	}
-
 	public VirtualFile getPageIncludeFile(PsiElement element, String suffix) {
 
 		assert element != null

@@ -13,8 +13,6 @@ public class BxComponent
 	public String template;
 
 	private Project project;
-	private VirtualFile componentDir;
-	private VirtualFile templateDir;
 
 	public BxComponent(PsiElement element) {
 		project = element.getProject();
@@ -32,16 +30,18 @@ public class BxComponent
 		}
 	}
 
-	/* Возвращает директорию компонента */
-	public VirtualFile getComponentDir() {
-		if (componentDir == null && (vendor != null && component != null))
-			componentDir = BxCore.findFile(project.getBaseDir(), "/{local,bitrix}/components/%s/%s/", vendor, component);
-
-		return componentDir;
-	}
-
 	public VirtualFile getComponentFile(String path) {
 		return BxCore.findFile(project.getBaseDir(), "/{local,bitrix}/components/%s/%s/%s", vendor, component, path);
+	}
+
+	public VirtualFile getComponentTemplateFile(String path) {
+		if (vendor != null && component != null && template != null) {
+			for (String search : new String[]{"{local,bitrix}/templates/*/components/%s/%s/%s/%s", "{local,bitrix}/components/%s/%s/templates/%s/%s"}) {
+				VirtualFile founded = BxCore.findFile(project.getBaseDir(), search, vendor, component, template, path); if (founded != null)
+					return founded;
+			}
+		}
+		return null;
 	}
 }
 
