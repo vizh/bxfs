@@ -87,7 +87,7 @@ public class BxCore
 
 	public VirtualFile getComponentTemplateSourceFile(PsiElement element) {
 		BxComponent credentials = new BxComponent(element); if (credentials.component != null && credentials.template != null) {
-			for (String path : new String[]{"{local,bitrix}/templates/components/%s/%s/%s/template.php", "{local,bitrix}/components/%s/%s/templates/%s/template.php"}) {
+			for (String path : new String[]{"{local,bitrix}/templates/*/components/%s/%s/%s/template.php", "{local,bitrix}/components/%s/%s/templates/%s/template.php"}) {
 				VirtualFile founded = findFile(project.getBaseDir(), path, credentials.vendor, credentials.component, credentials.template); if (founded != null)
 					return founded;
 			}
@@ -145,7 +145,7 @@ public class BxCore
 			for (VirtualFile parent : result) {
 				/* Перечисления */
 				if (pathComponent.startsWith("{") && pathComponent.endsWith("}")) {
-					for (String enumeration : pathComponent.substring(1, pathComponent.length() - 2).split(","))
+					for (String enumeration : pathComponent.substring(1, pathComponent.length() - 1).split(","))
 						if ((child = parent.findChild(enumeration)) != null)
 							buffer.add(child);
 					continue;
