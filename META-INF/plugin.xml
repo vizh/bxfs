@@ -71,6 +71,7 @@
   <extensions defaultExtensionNs="com.intellij">
     <completion.contributor language="PHP" implementationClass="pro.opcode.bitrix.types.BxSuperglobalsProvider"/>
     <completion.contributor language="PHP" implementationClass="pro.opcode.bitrix.completions.BxComponentCompletion"/>
+    <completion.contributor language="PHP" implementationClass="pro.opcode.bitrix.completions.BxComponentTemplateCompletion"/>
     <psi.referenceContributor implementation="pro.opcode.bitrix.BxReferenceContributors"/>
     <php.typeProvider2 implementation="pro.opcode.bitrix.types.BxSuperglobalsProvider"/>
     <localInspection language="PHP" groupPath="PHP" shortName="PhpIncludeInspection" displayName="Unresolved include" groupName="General"

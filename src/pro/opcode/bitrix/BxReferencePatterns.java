@@ -23,11 +23,10 @@ public class BxReferencePatterns
 			public boolean accepts(@Nullable Object o, ProcessingContext context) {
 				assert o != null && (o instanceof StringLiteralExpression || o instanceof LeafPsiElement);
 				/* LeafPsiElement - это недописанный элемент, которому необходим автокомплит. Сам элемент - его предок. */
-				if (o instanceof LeafPsiElement && !((o = ((LeafPsiElement) o).getParent()) instanceof StringLiteralExpression))
-					return false;
-
-				return isValidComponentCall(o)
+				return !(o instanceof LeafPsiElement && !((o = ((LeafPsiElement) o).getParent()) instanceof StringLiteralExpression))
+					&& isValidComponentCall(o)
 					&& isParameterDepth(o, 1);
+
 			}
 		});
 	}
@@ -39,9 +38,12 @@ public class BxReferencePatterns
 		return new PhpElementPattern.Capture<StringLiteralExpression>(new InitialPatternCondition<StringLiteralExpression>(StringLiteralExpression.class) {
 			@Override
 			public boolean accepts(@Nullable Object o, ProcessingContext context) {
-				assert o != null && o instanceof StringLiteralExpression;
-				return isValidComponentCall(o)
+				assert o != null && (o instanceof StringLiteralExpression || o instanceof LeafPsiElement);
+				/* LeafPsiElement - это недописанный элемент, которому необходим автокомплит. Сам элемент - его предок. */
+				return !(o instanceof LeafPsiElement && !((o = ((LeafPsiElement) o).getParent()) instanceof StringLiteralExpression))
+					&& isValidComponentCall(o)
 					&& isParameterDepth(o, 2);
+
 			}
 		});
 	}
@@ -88,10 +90,9 @@ public class BxReferencePatterns
 			public boolean accepts(@Nullable Object o, ProcessingContext context) {
 				assert o != null && (o instanceof StringLiteralExpression || o instanceof LeafPsiElement);
 				/* LeafPsiElement - это недописанный элемент, которому необходим автокомплит. Сам элемент - его предок. */
-				if (o instanceof LeafPsiElement && !((o = ((LeafPsiElement) o).getParent()) instanceof StringLiteralExpression))
-					return false;
+				return !(o instanceof LeafPsiElement && !((o = ((LeafPsiElement) o).getParent()) instanceof StringLiteralExpression))
+					&& (BxCore.isFilenameValid(((StringLiteralExpression) o).getContents()));
 
-				return (BxCore.isFilenameValid(((StringLiteralExpression) o).getContents()));
 			}
 		});
 	}

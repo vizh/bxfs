@@ -22,6 +22,10 @@ public class BxCore
 		this.project = project;
 	}
 
+	public static BxComponent getComponent(PsiElement element) {
+		return new BxComponent(element);
+	}
+
 	/* Проверяет, есть ли в текущем проекте папка (bitrix|local)/components/bitrix */
 	public boolean isComponentsFolderExists() {
 		for (String bitrixPath : BitrixPaths) {

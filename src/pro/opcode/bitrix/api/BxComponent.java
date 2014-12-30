@@ -6,6 +6,10 @@ import com.intellij.psi.PsiElement;
 import com.jetbrains.php.lang.psi.elements.ParameterList;
 import com.jetbrains.php.lang.psi.elements.StringLiteralExpression;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class BxComponent
 {
 	public String vendor;
@@ -42,6 +46,19 @@ public class BxComponent
 			}
 		}
 		return null;
+	}
+
+	public VirtualFile[] getPossibleTemplates() {
+		List<VirtualFile> foundedTemplates = new ArrayList<VirtualFile>();
+
+		if (vendor != null && component != null) {
+			for (String search : new String[]{"{local,bitrix}/templates/*/components/%s/%s/*", "{local,bitrix}/components/%s/%s/templates/*"}) {
+				VirtualFile[] templates = BxCore.findFiles(project.getBaseDir(), search, vendor, component); if (templates != null)
+					foundedTemplates.addAll(Arrays.asList(templates));
+			}
+		}
+
+		return foundedTemplates.toArray(new VirtualFile[foundedTemplates.size()]);
 	}
 }
 
