@@ -1,7 +1,7 @@
 <idea-plugin version="2">
   <id>pro.opcode.bitrix</id>
   <name>Bitrix Framework Support</name>
-  <version>0.0.9</version>
+  <version>0.1</version>
   <vendor email="star.absorber@gmail.com">opCode</vendor>
 
   <description><![CDATA[
