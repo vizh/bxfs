@@ -88,7 +88,9 @@
   </application-components>
 
   <project-components>
-    <!-- Add your project components here -->
+    <component>
+      <implementation-class>pro.opcode.bitrix.BitrixFramework</implementation-class>
+    </component>
   </project-components>
 
   <actions>
