@@ -81,6 +81,19 @@ public class BxReferencePatterns
 		});
 	}
 
+	public static PhpElementPattern.Capture<StringLiteralExpression> bxApplicationIncludeFileReference() {
+		return new PhpElementPattern.Capture<StringLiteralExpression>(new InitialPatternCondition<StringLiteralExpression>(StringLiteralExpression.class) {
+			@Override
+			public boolean accepts(@Nullable Object o, ProcessingContext context) {
+				assert o != null && (o instanceof StringLiteralExpression || o instanceof LeafPsiElement);
+				/* LeafPsiElement - это недописанный элемент, которому необходим автокомплит. Сам элемент - его предок. */
+				return !(o instanceof LeafPsiElement && !((o = ((LeafPsiElement) o).getParent()) instanceof StringLiteralExpression))
+					&& isValidApplicationIncludeFileCall(o);
+
+			}
+		});
+	}
+
 	/**
 	 * Захват строк, содержащих пути к файлам / папкам
 	 */
@@ -91,7 +104,8 @@ public class BxReferencePatterns
 				assert o != null && (o instanceof StringLiteralExpression || o instanceof LeafPsiElement);
 				/* LeafPsiElement - это недописанный элемент, которому необходим автокомплит. Сам элемент - его предок. */
 				return !(o instanceof LeafPsiElement && !((o = ((LeafPsiElement) o).getParent()) instanceof StringLiteralExpression))
-					&& (BxCore.isFilenameValid(((StringLiteralExpression) o).getContents()));
+					&& !isValidApplicationIncludeFileCall(o)
+					&& BxCore.isFilenameValid(((StringLiteralExpression) o).getContents());
 
 			}
 		});
@@ -110,6 +124,21 @@ public class BxReferencePatterns
 		});
 	}
 
+	/**
+	 * Is the element is a parameter of $APPLICATION->IncludeComponent() call
+	 */
+	private static boolean isValidApplicationIncludeFileCall(Object o) {
+		PsiElement parameters = ((PsiElement) o).getParent(); if (parameters instanceof ParameterList) {
+			PsiElement method = parameters.getParent(); if (method instanceof MethodReference) {
+				PsiElement clazz = ((MethodReference) method).getClassReference(); if (clazz instanceof Variable) {
+					return !((MethodReference) method).isStatic()
+						&& "APPLICATION".equals(((Variable) clazz).getName())
+						&& "IncludeFile".equals(((MethodReference) method).getName());
+				}
+			}
+		}
+		return false;
+	}
 
 	/**
 	 * Is the element is a parameter of $APPLICATION->IncludeComponent() call

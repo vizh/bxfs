@@ -29,6 +29,14 @@ public class BxReferenceContributors extends PsiReferenceContributor
 			return new BxComponentIncludeReference(element).getReference();
 		}});
 
+		/* Обработчик $APPLICATION->IncludeFile() */
+		registrar.registerReferenceProvider(BxReferencePatterns.bxApplicationIncludeFileReference(), new PsiReferenceProvider() {
+			@NotNull @Override
+			public PsiReference[] getReferencesByElement(@NotNull PsiElement element, @NotNull ProcessingContext processingContext) {
+			return new BxApplicationIncludeFileReference(element).getReference();
+			}
+		});
+
 		/* Образботчик строковых переменных содержащих путь */
 		registrar.registerReferenceProvider(BxReferencePatterns.bxPathReference(), new PsiReferenceProvider(){
 				@NotNull @Override

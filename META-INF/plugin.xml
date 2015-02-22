@@ -1,7 +1,7 @@
 <idea-plugin version="2">
   <id>pro.opcode.bitrix</id>
   <name>Bitrix Framework Support</name>
-  <version>0.1</version>
+  <version>0.1.1</version>
   <vendor email="star.absorber@gmail.com">opCode</vendor>
 
   <description><![CDATA[
@@ -21,6 +21,9 @@
     ]]></description>
 
   <change-notes><![CDATA[
+    <p><b>0.1.1</b></p><ul>
+      <li>Особая обработка путей в вызовах $APPLICATION->IncludeFile() в <a href="http://dev.1c-bitrix.ru/api_help/main/reference/cmain/includefile.php">соответствии с документацией Битрикс</a></li>
+    </ul>
     <p><b>0.1</b></p><ul>
       <li>Ошибка определения ссылок на файлы в строках с конкатенацией</li>
       <li>Автокомплит шаблона компонента в процессе набора $APPLICATION->IncludeComponent("bitrix:component", ...)</li>
