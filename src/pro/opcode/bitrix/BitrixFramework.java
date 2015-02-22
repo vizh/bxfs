@@ -5,13 +5,22 @@ import com.intellij.openapi.components.ProjectComponent;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.roots.ModuleRootEvent;
 import com.intellij.openapi.roots.ModuleRootListener;
+import com.intellij.openapi.util.IconLoader;
 import org.jetbrains.annotations.NotNull;
+
+import javax.swing.*;
 
 public class BitrixFramework implements ProjectComponent, ModuleRootListener
 {
+	public static final Icon bxIcon;
+
 	private final Project project;
 //	public static VirtualFile[] projectSourceRoots = new VirtualFile[]{};
 //	public static VirtualFile[] projectResourceRoots = new VirtualFile[]{};
+
+	static {
+		bxIcon = IconLoader.getIcon("/pro/opcode/bitrix/resources/icon.bx.png");
+	}
 
 	public BitrixFramework(@NotNull Project project) {
 		this.project = project;
@@ -25,6 +34,22 @@ public class BitrixFramework implements ProjectComponent, ModuleRootListener
 //			projectResourceRoots[projectResourceRoots.length - 1] = resourceRoot;
 //		}
 		project.getMessageBus().connect(project).subscribe(ProjectTopics.PROJECT_ROOTS, this);
+
+		/* Шаблоны страниц */
+//		FileTemplateManager templateManager = FileTemplateManager.getInstance();
+//		boolean hasBxSimplePageTemplate = false;
+//		for (FileTemplate fileTemplate : Arrays.asList(templateManager.getAllTemplates())) {
+//			if (fileTemplate.getName().equals("Битрикс: Простая страница")) hasBxSimplePageTemplate = true;
+//		}
+//
+//		if (!hasBxSimplePageTemplate) {
+//			FileTemplate bxSimplePage = templateManager.addTemplate("Битрикс: Простая страница", "php");
+//			try {
+//				bxSimplePage.setText(ResourceUtil.loadText(BitrixFramework.class.getResource("/pro/opcode/bitrix/resources/php/bxSimplePage.php")));
+//			} catch (IOException e){
+//				templateManager.removeTemplate(bxSimplePage);
+//			}
+//		}
 	}
 
 	@Override

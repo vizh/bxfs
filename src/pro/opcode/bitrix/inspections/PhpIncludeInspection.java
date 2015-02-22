@@ -11,6 +11,8 @@ import com.jetbrains.php.lang.psi.elements.Include;
 import com.jetbrains.php.lang.psi.visitors.PhpElementVisitor;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
+
 /* toDo: Правильнее было бы вмешаться в процесс индексирования и добавить в индекс необходимые пути, пусть и виртуально.
  * Достаточно добавить файл в ResolveCache */
 public class PhpIncludeInspection extends PhpInspection {
@@ -27,7 +29,7 @@ public class PhpIncludeInspection extends PhpInspection {
 
 					/* Начало изменения */
                     /* toDo: Привязаться к BxTemplateReference.bxTemplateReferenceTargets */
-					if (var9.length > 0 && var9[0].getCanonicalText().equals("bitrix"))
+					if (var9.length > 0 && Arrays.asList("bitrix", "local").contains(var9[0].getCanonicalText()))
 						return;
 
 //					if (var9.length == 2 && var9[0].getCanonicalText().equals("bitrix") && Arrays.asList("header.php", "footer.php").contains(var9[1].getCanonicalText()))
