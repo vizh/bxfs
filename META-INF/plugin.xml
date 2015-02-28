@@ -1,7 +1,7 @@
 <idea-plugin version="2">
 	<id>pro.opcode.bitrix</id>
 	<name>Bitrix Framework Support</name>
-	<version>0.1.1</version>
+	<version>0.1.2</version>
 	<vendor email="star.absorber@gmail.com">opCode</vendor>
 
 	<description><![CDATA[
@@ -16,15 +16,19 @@
 			<li>Решена проблема с подсветкой bitrix как неразрешённого пути в вызовах require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php"); и похожих конструкциях.</li>
 			<li>Безопасный рефакторинг файлов с автоматическим обновлением их вызовов в строковых переменных. <a href="https://www.youtube.com/watch?v=QddJ9E4i9oo">Демо-видео</a>.</li>
 			<li>Поиск использований, например файла some.css, в вызовах $APPLICATION->SetAdditionalCSS('...some.css'), во всех файлах проекта.</li>
-			<li>Шаблон создания типовой страницы сайта.</li>
+			<li>Шаблоны создания типовой страницы и раздела сайта.</li>
 		</ul>
 		<p>Пожелания и сообщения об ошибках можете отправлять на почту или оставлять в <a href="http://redmine.vizh.ru/projects/proj060/issues">Кабинете</a>. Там же можете <a href="http://redmine.vizh.ru/projects/proj060/roadmap">посмотреть планы</a> по развитию.</p>
 	]]></description>
 
 	<change-notes><![CDATA[
+		<p><b>0.1.2</b></p><ul>
+			<li>Создание типового раздела Битрикс сайта</li>
+		</ul>
 		<p><b>0.1.1</b></p><ul>
 			<li>Особая обработка путей в вызовах $APPLICATION->IncludeFile() в <a href="http://dev.1c-bitrix.ru/api_help/main/reference/cmain/includefile.php">соответствии с документацией Битрикс</a></li>
 			<li>Создание типовой страницы Битрикс сайта</li>
+			<li>Создание типового раздела Битрикс сайта</li>
 		</ul>
 		<p><b>0.1</b></p><ul>
 			<li>Ошибка определения ссылок на файлы в строках с конкатенацией</li>
@@ -95,6 +99,9 @@
 	</project-components>
 
 	<actions>
+		<action id="pro.opcode.bitrix.actions.BxNewSectionAction" class="pro.opcode.bitrix.actions.BxNewSectionAction">
+			<add-to-group group-id="PhpNewGroup" anchor="first"/>
+		</action>
 		<action id="pro.opcode.bitrix.actions.BxNewFileAction" class="pro.opcode.bitrix.actions.BxNewFileAction">
 			<add-to-group group-id="PhpNewGroup" anchor="first"/>
 		</action>

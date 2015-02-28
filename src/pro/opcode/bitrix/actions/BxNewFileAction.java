@@ -29,9 +29,9 @@ public class BxNewFileAction extends CreateFileFromTemplateAction
 	}
 
 	@Override
-	protected PsiFile createFileFromTemplate(String s, FileTemplate fileTemplate, PsiDirectory psiDirectory) {
-		fileTemplate.setExtension("php");
-		fileTemplate.setText(BxCore.loadTemplate(fileTemplate.getName()));
-		return super.createFileFromTemplate(s, fileTemplate, psiDirectory);
+	protected PsiFile createFileFromTemplate(String s, FileTemplate template, PsiDirectory directory) {
+		template.setExtension("php");
+		template.setText(BxCore.loadTemplate(template.getName()));
+		return super.createFileFromTemplate(s, template, directory);
 	}
 }
