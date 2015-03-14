@@ -152,6 +152,11 @@ public class BxCore
 					buffer.addAll(Arrays.asList(parent.getChildren()));
 					continue;
 				}
+				/* Родитель */
+				if (pathComponent.equals("..")) {
+					buffer.add(parent.getParent());
+					continue;
+				}
 				/* Конкретный деть */
 				if ((child = parent.findChild(pathComponent)) != null) {
 					buffer.add(child);

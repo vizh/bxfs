@@ -22,13 +22,15 @@
 	]]></description>
 
 	<change-notes><![CDATA[
+		<p><b>0.1.3</b></p><ul>
+			<li>Доступность переменных $arResult, $arParams, $componentPath и подобных им в файлах result_modifier.php</li>
+		</ul>
 		<p><b>0.1.2</b></p><ul>
 			<li>Создание типового раздела Битрикс сайта</li>
 		</ul>
 		<p><b>0.1.1</b></p><ul>
 			<li>Особая обработка путей в вызовах $APPLICATION->IncludeFile() в <a href="http://dev.1c-bitrix.ru/api_help/main/reference/cmain/includefile.php">соответствии с документацией Битрикс</a></li>
 			<li>Создание типовой страницы Битрикс сайта</li>
-			<li>Создание типового раздела Битрикс сайта</li>
 		</ul>
 		<p><b>0.1</b></p><ul>
 			<li>Ошибка определения ссылок на файлы в строках с конкатенацией</li>
