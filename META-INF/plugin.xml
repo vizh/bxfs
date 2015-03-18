@@ -1,7 +1,7 @@
 <idea-plugin version="2">
 	<id>pro.opcode.bitrix</id>
 	<name>Bitrix Framework Support</name>
-	<version>0.1.2</version>
+	<version>0.1.4</version>
 	<vendor email="star.absorber@gmail.com">opCode</vendor>
 
 	<description><![CDATA[
@@ -16,12 +16,15 @@
 			<li>Решена проблема с подсветкой bitrix как неразрешённого пути в вызовах require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php"); и похожих конструкциях.</li>
 			<li>Безопасный рефакторинг файлов с автоматическим обновлением их вызовов в строковых переменных. <a href="https://www.youtube.com/watch?v=QddJ9E4i9oo">Демо-видео</a>.</li>
 			<li>Поиск использований, например файла some.css, в вызовах $APPLICATION->SetAdditionalCSS('...some.css'), во всех файлах проекта.</li>
-			<li>Шаблоны создания типовой страницы и раздела сайта.</li>
+			<li>Шаблоны создания типовых страниц и разделов сайта.</li>
 		</ul>
 		<p>Пожелания и сообщения об ошибках можете отправлять на почту или оставлять в <a href="http://redmine.vizh.ru/projects/proj060/issues">Кабинете</a>. Там же можете <a href="http://redmine.vizh.ru/projects/proj060/roadmap">посмотреть планы</a> по развитию.</p>
 	]]></description>
 
 	<change-notes><![CDATA[
+		<p><b>0.1.4</b></p><ul>
+			<li>Несколько типовых шаблонов в диалоге создания страницы</li>
+		</ul>
 		<p><b>0.1.3</b></p><ul>
 			<li>Доступность переменных $arResult, $arParams, $componentPath и подобных им в файлах result_modifier.php</li>
 		</ul>

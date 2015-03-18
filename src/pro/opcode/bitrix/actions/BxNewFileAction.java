@@ -18,9 +18,9 @@ public class BxNewFileAction extends CreateFileFromTemplateAction
 	@Override
 	protected void buildDialog(Project project, PsiDirectory psiDirectory, CreateFileFromTemplateDialog.Builder builder) {
 		builder.setTitle("Битрикс: Страница")
-			.addKind("Простая страница", BitrixFramework.bxIcon, "bxSimplePage");
-//			.addKind("Подробная страница", StdFileTypes.HTML.getIcon(), "Html")
-//			.addKind("XHTML file", StdFileTypes.XHTML.getIcon(), "Xhtml");
+			.addKind("Страница", BitrixFramework.bxIcon, "bxSimplePage")
+			.addKind("Страница (модерн)", BitrixFramework.bxIcon, "bxSimplePageModern")
+			.addKind("Сервис", BitrixFramework.bxIcon, "bxSimpleService");
 	}
 
 	@Override
