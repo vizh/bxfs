@@ -1,7 +1,7 @@
 <idea-plugin version="2">
 	<id>pro.opcode.bitrix</id>
 	<name>Bitrix Framework Support</name>
-	<version>0.1.4</version>
+	<version>0.1.5</version>
 	<vendor email="star.absorber@gmail.com">opCode</vendor>
 
 	<description><![CDATA[
@@ -12,16 +12,20 @@
 			<li>Переход на файл компонента, шаблона компонента (поддерживаются Twig и Smarty), шаблона сайта а так же на директории и файлы, найденные в строковых переменных.</li>
 			<li>Переход на файл включаемой области при клике в вызове <?$APPLICATION->IncludeComponent('bitrix:main.include', ...);?> на значение ключа 'AREA_FILE_SUFFIX'.</li>
 			<li>Корректное определение типов и автокомплит для <a href="http://dev.1c-bitrix.ru/api_help/main/general/magic_vars.php">специальных переменных</a> и <a href="http://dev.1c-bitrix.ru/learning/course/?COURSE_ID=43&LESSON_ID=2829#variables">переменных шаблона</a>.</li>
-			<li>Автокомплит компонента и его шаблона в процессе набора $APPLICATION->IncludeComponent(...)</li>
+			<li>Автокомплит компонента и его шаблона в процессе набора $APPLICATION->IncludeComponent(...) и CBitrixComponent::includeComponentClass(...)</li>
 			<li>Решена проблема с подсветкой bitrix как неразрешённого пути в вызовах require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php"); и похожих конструкциях.</li>
-			<li>Безопасный рефакторинг файлов с автоматическим обновлением их вызовов в строковых переменных. <a href="https://www.youtube.com/watch?v=QddJ9E4i9oo">Демо-видео</a>.</li>
+			<li>Безопасный рефакторинг файлов с автоматическим обновлением их вызовов в строковых переменных.</li>
 			<li>Поиск использований, например файла some.css, в вызовах $APPLICATION->SetAdditionalCSS('...some.css'), во всех файлах проекта.</li>
 			<li>Шаблоны создания типовых страниц и разделов сайта.</li>
 		</ul>
+		<p><a href="http://www.youtube.com/watch?v=37w7U65nVRU">Демо-видео</a></p>
 		<p>Пожелания и сообщения об ошибках можете отправлять на почту или оставлять в <a href="http://redmine.vizh.ru/projects/proj060/issues">Кабинете</a>. Там же можете <a href="http://redmine.vizh.ru/projects/proj060/roadmap">посмотреть планы</a> по развитию.</p>
 	]]></description>
 
 	<change-notes><![CDATA[
+		<p><b>0.1.5</b></p><ul>
+			<li>Автокомплит компонента, его шаблона и переход к ним в вызове CBitrixComponent::includeComponentClass(...)</li>
+		</ul>
 		<p><b>0.1.4</b></p><ul>
 			<li>Несколько типовых шаблонов в диалоге создания страницы</li>
 		</ul>

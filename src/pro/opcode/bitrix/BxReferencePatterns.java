@@ -149,12 +149,16 @@ public class BxReferencePatterns
 				PsiElement[] params = ((ParameterList) parameters).getParameters(); if (params.length == 0 || params[0].getNode().getElementType() != PhpElementTypes.STRING || !((StringLiteralExpression) params[0]).getContents().equals(component))
 					return false;
 			}
-			PsiElement method = parameters.getParent(); if (method instanceof MethodReference) {
-				PsiElement clazz = ((MethodReference) method).getClassReference(); if (clazz instanceof Variable) {
-					return !((MethodReference) method).isStatic()
-						&& "APPLICATION".equals(((Variable) clazz).getName())
-						&& "IncludeComponent".equals(((MethodReference) method).getName());
-				}
+			PsiElement psiMethod = parameters.getParent(); if (psiMethod instanceof MethodReference) {
+				MethodReference method = (MethodReference) psiMethod;
+				/* CBitrixComponent::includeComponentClass() */
+				if (method.getClassReference() instanceof ClassReference && method.isStatic())
+					return "CBitrixComponent".equals(method.getClassReference().getName())
+						&& "includeComponentClass".equals(method.getName());
+				/* $APPLICATION->IncludeComponent() */
+				if (method.getClassReference() instanceof Variable && !method.isStatic())
+					return "APPLICATION".equals(method.getClassReference().getName())
+						&& "IncludeComponent".equals(method.getName());
 			}
 		}
 		return false;
