@@ -34,17 +34,21 @@ public class BxSuperglobalsProvider extends CompletionContributor implements Php
 		bxSuperglobals.put("APPLICATION", 			new BxSuperglobal("CMain",						null));
 		bxSuperglobals.put("USER",					new BxSuperglobal("CUser",						null));
 		bxSuperglobals.put("DB",					new BxSuperglobal("CDatabase",					null));
-		bxSuperglobals.put("this",					new BxSuperglobal("CBitrixComponentTemplate",	Arrays.asList("template.php", "result_modifier.php", "component_epilog.php"					)));
-		bxSuperglobals.put("component",				new BxSuperglobal("CBitrixComponent",			Arrays.asList("template.php", "result_modifier.php", "component_epilog.php"					)));
-		bxSuperglobals.put("arResult",				new BxSuperglobal("GLOBALS",					Arrays.asList("template.php", "result_modifier.php", "component_epilog.php", "component.php"	)));
-		bxSuperglobals.put("arParams",				new BxSuperglobal("GLOBALS",					Arrays.asList("template.php", "result_modifier.php", "component_epilog.php", "component.php"	)));
-		bxSuperglobals.put("arLangMessages",		new BxSuperglobal("GLOBALS",					Arrays.asList("template.php", "result_modifier.php", "component_epilog.php"					)));
-		bxSuperglobals.put("templateName",			new BxSuperglobal("php_errormsg",				Arrays.asList("template.php", "result_modifier.php", "component_epilog.php"					)));
-		bxSuperglobals.put("templateData",			new BxSuperglobal("php_errormsg",				Arrays.asList("template.php", "result_modifier.php", "component_epilog.php"					)));
-		bxSuperglobals.put("templateFile",			new BxSuperglobal("php_errormsg",				Arrays.asList("template.php", "result_modifier.php", "component_epilog.php"					)));
-		bxSuperglobals.put("templateFolder",		new BxSuperglobal("php_errormsg",				Arrays.asList("template.php", "result_modifier.php", "component_epilog.php"					)));
-		bxSuperglobals.put("parentTemplateFolder",	new BxSuperglobal("php_errormsg",				Arrays.asList("template.php", "result_modifier.php", "component_epilog.php"					)));
-		bxSuperglobals.put("componentPath",			new BxSuperglobal("php_errormsg",				Arrays.asList("template.php", "result_modifier.php", "component_epilog.php", "component.php"	)));
+		bxSuperglobals.put("this",					new BxSuperglobal("CBitrixComponentTemplate",	Arrays.asList("template.php", "result_modifier.php", "component_epilog.php"										)));
+		bxSuperglobals.put("component",				new BxSuperglobal("CBitrixComponent",			Arrays.asList("template.php", "result_modifier.php", "component_epilog.php"										)));
+		bxSuperglobals.put("arResult",				new BxSuperglobal("GLOBALS",					Arrays.asList("template.php", "result_modifier.php", "component_epilog.php", "component.php"					)));
+		bxSuperglobals.put("arParams",				new BxSuperglobal("GLOBALS",					Arrays.asList("template.php", "result_modifier.php", "component_epilog.php", "component.php"					)));
+		bxSuperglobals.put("arLangMessages",		new BxSuperglobal("GLOBALS",					Arrays.asList("template.php", "result_modifier.php", "component_epilog.php"										)));
+		bxSuperglobals.put("templateName",			new BxSuperglobal("php_errormsg",				Arrays.asList("template.php", "result_modifier.php", "component_epilog.php"										)));
+		bxSuperglobals.put("templateData",			new BxSuperglobal("php_errormsg",				Arrays.asList("template.php", "result_modifier.php", "component_epilog.php"										)));
+		bxSuperglobals.put("templateFile",			new BxSuperglobal("php_errormsg",				Arrays.asList("template.php", "result_modifier.php", "component_epilog.php"										)));
+		bxSuperglobals.put("templateFolder",		new BxSuperglobal("php_errormsg",				Arrays.asList("template.php", "result_modifier.php", "component_epilog.php"										)));
+		bxSuperglobals.put("parentTemplateFolder",	new BxSuperglobal("php_errormsg",				Arrays.asList("template.php", "result_modifier.php", "component_epilog.php"										)));
+		bxSuperglobals.put("componentPath",			new BxSuperglobal("php_errormsg",				Arrays.asList("template.php", "result_modifier.php", "component_epilog.php", "component.php", ".parameters.php"	)));
+		bxSuperglobals.put("componentName",			new BxSuperglobal("php_errormsg",				Arrays.asList(																				  ".parameters.php"	)));
+		bxSuperglobals.put("templateProperties",	new BxSuperglobal("php_errormsg",				Arrays.asList(																				  ".parameters.php"	)));
+		bxSuperglobals.put("arCurrentValues",		new BxSuperglobal("php_errormsg",				Arrays.asList(																				  ".parameters.php"	)));
+		bxSuperglobals.put("arComponentParameters",	new BxSuperglobal("php_errormsg",				Arrays.asList(																				  ".parameters.php"	)));
 	}
 
 	public BxSuperglobalsProvider() {
