@@ -25,7 +25,8 @@
 	<change-notes><![CDATA[
 		<p><b>0.1.6</b></p><ul>
 			<li>Исправление ошибки связанной с именами компонентов, содержащими переменные.</li>
-			<li>Автокомплит $arCurrentValues в файлах .parameters.php</li>
+			<li>Автокомплит следующим суперглобальным переменным в .parameters.php: $componentName, $templateProperties, $arCurrentValues, $arComponentParameters и $componentPath</li>
+			<li>Автокомплит следующим суперглобальным переменным в component.php: $componentName, $componentTemplate, $parentComponentName, $parentComponentPath и $parentComponentTemplate</li>
 		</ul>
 		<p><b>0.1.5</b></p><ul>
 			<li>Автокомплит компонента, его шаблона и переход к ним в вызове CBitrixComponent::includeComponentClass(...)</li>
