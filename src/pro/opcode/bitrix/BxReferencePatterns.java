@@ -38,12 +38,10 @@ public class BxReferencePatterns
 		return new PhpElementPattern.Capture<StringLiteralExpression>(new InitialPatternCondition<StringLiteralExpression>(StringLiteralExpression.class) {
 			@Override
 			public boolean accepts(@Nullable Object o, ProcessingContext context) {
-				assert o != null && (o instanceof StringLiteralExpression || o instanceof LeafPsiElement);
 				/* LeafPsiElement - это недописанный элемент, которому необходим автокомплит. Сам элемент - его предок. */
 				return !(o instanceof LeafPsiElement && !((o = ((LeafPsiElement) o).getParent()) instanceof StringLiteralExpression))
 					&& isValidComponentCall(o)
 					&& isParameterDepth(o, 2);
-
 			}
 		});
 	}

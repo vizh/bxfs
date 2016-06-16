@@ -37,11 +37,23 @@ public class BxPathReference extends BxReference
 					path = pathResolved.replace("//", "/"); /* DOCUMENT_URL может оканчиваться, а может и не оканчиваться на /, потому есть свобода сделать это */
 			}
 		}
-		VirtualFile baseDir = path.startsWith("/") ? element.getProject().getBaseDir() : element.getContainingFile().getVirtualFile().getParent();
-		VirtualFile file = baseDir.findFileByRelativePath(path); if (file == null)
+
+		VirtualFile baseDir = path.startsWith("/")
+			? element.getProject().getBaseDir()
+			: element.getContainingFile().getVirtualFile().getParent();
+
+		if (baseDir == null)
 			return null;
 
-		return file.isDirectory() ? element.getManager().findDirectory(file) : element.getManager().findFile(file);
+		VirtualFile file
+			= baseDir.findFileByRelativePath(path);
+
+		if (file == null)
+			return null;
+
+		return file.isDirectory()
+			? element.getManager().findDirectory(file)
+			: element.getManager().findFile(file);
 	}
 
 	public String resolveConcatenation(BinaryExpression binaryExpression) {

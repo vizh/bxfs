@@ -61,4 +61,3 @@ public class BxComponent
 		return foundedTemplates.toArray(new VirtualFile[foundedTemplates.size()]);
 	}
 }
-

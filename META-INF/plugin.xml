@@ -1,7 +1,7 @@
 <idea-plugin version="2">
 	<id>pro.opcode.bitrix</id>
 	<name>Bitrix Framework Support</name>
-	<version>0.1.6</version>
+	<version>0.1.7</version>
 	<vendor email="star.absorber@gmail.com">opCode</vendor>
 
 	<description><![CDATA[
@@ -23,8 +23,10 @@
 	]]></description>
 
 	<change-notes><![CDATA[
+		<p><b>0.1.7</b></p><ul>
+			<li>Исправление ошибок</li>
+		</ul>
 		<p><b>0.1.6</b></p><ul>
-			<li>Исправление ошибки связанной с именами компонентов, содержащими переменные.</li>
 			<li>Автокомплит следующим суперглобальным переменным в .parameters.php: $componentName, $templateProperties, $arCurrentValues, $arComponentParameters и $componentPath</li>
 			<li>Автокомплит следующим суперглобальным переменным в component.php: $componentName, $componentTemplate, $parentComponentName, $parentComponentPath и $parentComponentTemplate</li>
 		</ul>
