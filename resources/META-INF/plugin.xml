@@ -1,7 +1,7 @@
 <idea-plugin version="2">
 	<id>pro.opcode.bitrix</id>
 	<name>Bitrix Framework Support</name>
-	<version>0.1.7</version>
+	<version>0.1.8</version>
 	<vendor email="star.absorber@gmail.com">opCode</vendor>
 
 	<description><![CDATA[
@@ -23,6 +23,9 @@
 	]]></description>
 
 	<change-notes><![CDATA[
+		<p><b>0.1.8</b></p><ul>
+			<li>Исправлена ошибка Short name 'PhpIncludeInspection' is not unique для новой версии PhpStorm</li>
+		</ul>
 		<p><b>0.1.7</b></p><ul>
 			<li>Исправление ошибок</li>
 		</ul>
@@ -101,7 +104,7 @@
 		<completion.contributor language="PHP" implementationClass="pro.opcode.bitrix.completions.BxComponentTemplateCompletion"/>
 		<psi.referenceContributor implementation="pro.opcode.bitrix.BxReferenceContributors"/>
 		<php.typeProvider2 implementation="pro.opcode.bitrix.types.BxSuperglobalsProvider"/>
-		<localInspection language="PHP" groupPath="PHP" shortName="PhpIncludeInspection" displayName="Unresolved include" groupName="General" enabledByDefault="true" level="WARNING" implementationClass="pro.opcode.bitrix.inspections.PhpIncludeInspection"/>
+		<localInspection language="PHP" groupPath="PHP" shortName="BxPhpIncludeInspection" displayName="Bitrix - Unresolved include" groupName="General" enabledByDefault="true" level="WARNING" implementationClass="pro.opcode.bitrix.inspections.PhpIncludeInspection"/>
 	</extensions>
 
 	<application-components>
