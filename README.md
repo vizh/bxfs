@@ -20,6 +20,9 @@ Bitrix is popular in the former Soviet Union region, so there is no much sense t
 
 ### История версий ###
 
+**0.1.8**
+* Исправлена ошибка Short name 'PhpIncludeInspection' is not unique для новой версии PhpStorm
+
 **0.1.7**
 * Исправление ошибок.
 
