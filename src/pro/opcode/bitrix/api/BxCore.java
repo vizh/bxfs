@@ -22,8 +22,11 @@ public class BxCore
 		this.project = project;
 	}
 
+	@Nullable
 	public static BxComponent getComponent(PsiElement element) {
-		return new BxComponent(element);
+		return element instanceof StringLiteralExpression
+			? new BxComponent(element)
+			: null;
 	}
 
 	/* Проверяет, есть ли в текущем проекте папка (bitrix|local)/components/bitrix */
