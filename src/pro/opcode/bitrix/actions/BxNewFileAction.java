@@ -2,36 +2,26 @@ package pro.opcode.bitrix.actions;
 
 import com.intellij.ide.actions.CreateFileFromTemplateAction;
 import com.intellij.ide.actions.CreateFileFromTemplateDialog;
-import com.intellij.ide.fileTemplates.FileTemplate;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiDirectory;
-import com.intellij.psi.PsiFile;
 import pro.opcode.bitrix.BitrixFramework;
-import pro.opcode.bitrix.api.BxCore;
 
 public class BxNewFileAction extends CreateFileFromTemplateAction
 {
 	public BxNewFileAction() {
-		super("Страница", "Битрикс: Страница", BitrixFramework.bxIcon);
+		super("Страница", "Битрикс: Создание новой страницы", BitrixFramework.bxIcon);
 	}
 
 	@Override
 	protected void buildDialog(Project project, PsiDirectory psiDirectory, CreateFileFromTemplateDialog.Builder builder) {
-		builder.setTitle("Битрикс: Страница")
-			.addKind("Страница", BitrixFramework.bxIcon, "bxSimplePage")
-			.addKind("Страница (модерн)", BitrixFramework.bxIcon, "bxSimplePageModern")
-			.addKind("Сервис", BitrixFramework.bxIcon, "bxSimpleService");
+		builder.setTitle("Битрикс: Новая страница")
+			.addKind("Страница", BitrixFramework.bxIcon, "Битрикс - Страница")
+			.addKind("Страница (модерн)", BitrixFramework.bxIcon, "Битрикс - Страница (модерн)")
+			.addKind("Сервис", BitrixFramework.bxIcon, "Битрикс - Сервис");
 	}
 
 	@Override
 	protected String getActionName(PsiDirectory psiDirectory, String s, String s1) {
-		return "Битрикс: Страница";
-	}
-
-	@Override
-	protected PsiFile createFileFromTemplate(String s, FileTemplate template, PsiDirectory directory) {
-		template.setExtension("php");
-		template.setText(BxCore.loadTemplate(template.getName()));
-		return super.createFileFromTemplate(s, template, directory);
+		return "Битрикс: Новая страница";
 	}
 }
