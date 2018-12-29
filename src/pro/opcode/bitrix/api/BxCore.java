@@ -5,13 +5,9 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiDirectory;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
-import com.intellij.util.ResourceUtil;
 import com.jetbrains.php.lang.psi.elements.StringLiteralExpression;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import pro.opcode.bitrix.BitrixFramework;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -181,17 +177,6 @@ public class BxCore
 		}
 
 		return result.toArray(new VirtualFile[result.size()]);
-	}
-
-	@NotNull
-	public static String loadTemplate(String name) {
-		try {
-			return ResourceUtil.loadText(BitrixFramework.class.getResource("/pro/opcode/bitrix/resources/php/" + name + ".php"));
-		} catch (IOException e){
-			e.printStackTrace();
-		}
-
-		return "";
 	}
 
 	private PsiFile getPageIncludeFile(PsiDirectory directory, String name, String suffix) {

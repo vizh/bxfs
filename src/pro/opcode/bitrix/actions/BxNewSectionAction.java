@@ -1,54 +1,80 @@
 package pro.opcode.bitrix.actions;
 
-import com.intellij.ide.actions.CreateFileFromTemplateAction;
-import com.intellij.ide.actions.CreateFileFromTemplateDialog;
+import com.intellij.ide.IdeView;
+import com.intellij.ide.actions.CreateDirectoryOrPackageHandler;
 import com.intellij.ide.fileTemplates.FileTemplate;
-import com.intellij.ide.fileTemplates.impl.CustomFileTemplate;
+import com.intellij.ide.fileTemplates.FileTemplateManager;
+import com.intellij.ide.fileTemplates.FileTemplateUtil;
+import com.intellij.ide.util.DirectoryChooserUtil;
+import com.intellij.openapi.actionSystem.AnAction;
+import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.actionSystem.LangDataKeys;
+import com.intellij.openapi.project.DumbAware;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.ui.Messages;
 import com.intellij.psi.PsiDirectory;
-import com.intellij.psi.PsiFile;
+import com.intellij.psi.PsiElement;
+import org.jetbrains.annotations.NotNull;
 import pro.opcode.bitrix.BitrixFramework;
-import pro.opcode.bitrix.api.BxCore;
 
-public class BxNewSectionAction extends CreateFileFromTemplateAction
+import java.util.Properties;
+
+public class BxNewSectionAction extends AnAction implements DumbAware
 {
 	public BxNewSectionAction() {
-		super("Раздел", "Битрикс: Раздел", BitrixFramework.bxIcon);
+		super("Раздел", "Битрикс: Создание нового раздела", BitrixFramework.bxIcon);
 	}
 
 	@Override
-	protected void buildDialog(Project project, PsiDirectory psiDirectory, CreateFileFromTemplateDialog.Builder builder) {
-		builder.setTitle("Битрикс: Раздел")
-			.addKind("Простая раздел", BitrixFramework.bxIcon, "bxSimpleSection");
-//			.addKind("Подробная страница", StdFileTypes.HTML.getIcon(), "Html")
-//			.addKind("XHTML file", StdFileTypes.XHTML.getIcon(), "Xhtml");
-	}
+	public void actionPerformed(@NotNull AnActionEvent event) {
+		IdeView view
+			= event.getData(LangDataKeys.IDE_VIEW);
 
-	@Override
-	protected String getActionName(PsiDirectory psiDirectory, String s, String s1) {
-		return "Битрикс: Раздел";
-	}
+		if (view != null) {
+			Project project
+				= event.getProject();
 
-	@Override
-	protected PsiFile createFileFromTemplate(String s, FileTemplate template, PsiDirectory directory) {
-		if (directory.findSubdirectory(s) != null || directory.findFile(s) != null) {
-			/* toDo: Выдавать сообщение, что файл или директория с таким именем не существует */
-			return null;
+			if (project != null) {
+				PsiDirectory directory
+					= DirectoryChooserUtil.getOrChooseDirectory(view);
+
+				if (directory != null) {
+					CreateDirectoryOrPackageHandler validator
+						= new CreateDirectoryOrPackageHandler(project, directory, true, "\\/");
+
+					// Сообщение не нужно, так как заголовок окна и так близко. Они резонируют.
+					Messages.showInputDialog(project, null, "Битрикс: Создание Нового Раздела", BitrixFramework.bxIcon, "", validator);
+
+					PsiElement result = validator.getCreatedElement();
+					if (result instanceof PsiDirectory) {
+						PsiDirectory createdDir = (PsiDirectory) result;
+
+						FileTemplateManager templateManager
+							= FileTemplateManager.getInstance(project);
+
+						FileTemplate cfgTemplate = templateManager.findInternalTemplate("Битрикс - Раздел (настройки)");
+						FileTemplate idxTemplate = templateManager.findInternalTemplate("Битрикс - Раздел (титульная)");
+
+						Properties properties
+							= FileTemplateManager.getInstance(project).getDefaultProperties();
+
+						try {
+							PsiElement cfgFile = FileTemplateUtil.createFromTemplate(cfgTemplate, ".section", properties, createdDir);
+							PsiElement idxFile = FileTemplateUtil.createFromTemplate(idxTemplate, "index", properties, createdDir);
+
+							view.selectElement(idxFile);
+						}
+						catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				}
+			}
 		}
+	}
 
-		PsiDirectory createdSect = createdSect = directory.createSubdirectory(s);
-		CustomFileTemplate createdFile = new CustomFileTemplate("someName", "php");
-
-		if (template.getName().equals("bxSimpleSection")) {
-			/* .section.php */
-			createdFile.setText(BxCore.loadTemplate("bxSimpleSectionConfig"));
-			super.createFileFromTemplate(".section", createdFile, createdSect);
-
-			/* index.php */
-			createdFile.setText(BxCore.loadTemplate("bxSimpleSectionIndex"));
-			return super.createFileFromTemplate("index", createdFile, createdSect);
-		}
-
-		return null;
+	@Override
+	public boolean isDumbAware() {
+		return false;
 	}
 }

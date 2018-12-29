@@ -30,6 +30,8 @@ public class BitrixFramework implements ProjectComponent, ModuleRootListener {
 		templates.put("Битрикс - Страница", "bxSimplePage");
 		templates.put("Битрикс - Страница (модерн)", "bxSimplePageModern");
 		templates.put("Битрикс - Сервис", "bxSimpleService");
+		templates.put("Битрикс - Раздел (настройки)", "bxSimpleSectionConfig");
+		templates.put("Битрикс - Раздел (титульная)", "bxSimpleSectionIndex");
 	}
 
 	public BitrixFramework(@NotNull Project project) {
