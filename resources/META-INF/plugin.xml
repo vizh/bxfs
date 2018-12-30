@@ -1,7 +1,7 @@
 <idea-plugin version="2">
 	<id>pro.opcode.bitrix</id>
 	<name>Bitrix Framework Support</name>
-	<version>0.1.8</version>
+	<version>0.1.9</version>
 	<vendor email="star.absorber@gmail.com">opCode</vendor>
 
 	<description><![CDATA[
@@ -23,6 +23,10 @@
 	]]></description>
 
 	<change-notes><![CDATA[
+		<p><b>0.1.9</b></p><ul>
+			<li>Шаблоны создаваемых страниц и разделов Битрикс теперь могут быть изменены в настройках IDE: Editor / File and Code Templates</li>
+			<li>Убран крайне криво реализованный функционал для переопределения штатного поведения инспекций IDE. Решена проблема, <a href="https://github.com/vizh/bxfs/issues/5">описанная тут</a>.</li>
+		</ul>
 		<p><b>0.1.7</b></p><ul>
 			<li>Исправление ошибок</li>
 		</ul>
